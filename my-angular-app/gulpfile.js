@@ -1,12 +1,13 @@
 var gulp = require('gulp');
 //var data = require('gulp-data');
 var stylus = require('gulp-stylus');
+var jade = require('gulp-jade');
 
 // Get one .styl file and render
-gulp.task('one', function () {
-  return gulp.src('./css/main.styl')
+gulp.task('styl', function () {
+  return gulp.src('./*.styl')
     .pipe(stylus())
-    .pipe(gulp.dest('./css/build'));
+    .pipe(gulp.dest('./css/build/'));
 });
 
 // Options
@@ -38,4 +39,15 @@ gulp.task('include-css', function() {
 
 });
 
-gulp.task('default',['one', 'compress', 'linenos']);
+gulp.task('templates', function() {
+  var YOUR_LOCALS = {};
+
+  gulp.src('./app/*.jade')
+    .pipe(jade({
+      locals: YOUR_LOCALS
+    }))
+    .pipe(gulp.dest(('./html/build/')))
+})
+
+
+gulp.task('default',['styl', 'templates']);
